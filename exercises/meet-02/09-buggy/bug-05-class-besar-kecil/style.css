@@ -1,0 +1,16 @@
+/* style.css */
+/* Bug: Nama Class Beda Huruf Besar/Kecil */
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 260px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+/* ---- Petunjuk ----
+   Buka index.html. Elemen yang ingin diberi gaya ini memakai
+   class apa persisnya? Bandingkan huruf demi huruf dengan
+   selector .card di atas. */

@@ -1,0 +1,17 @@
+/* style.css */
+/* Bug: CSS Lupa Titik Koma */
+
+.btn {
+    color: white
+    background: teal;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+}
+
+/* ---- Petunjuk ----
+   Setiap aturan CSS (properti: nilai) wajib diakhiri titik koma ;
+   sebelum aturan berikutnya dimulai.
+   Kalau titik koma-nya hilang, browser bingung membedakan mana akhir
+   dari satu aturan dan mana awal aturan berikutnya — akibatnya
+   KEDUA aturan itu bisa gagal diterapkan sekaligus. */

@@ -1,0 +1,33 @@
+<!-- index.html -->
+<!-- Solusi Challenge Hard — Form Pendaftaran Interaktif -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Pendaftaran Interaktif</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="kartu">
+        <h1>Pendaftaran Webinar RainCode</h1>
+
+        <!-- Sengaja pakai <div>, bukan <form> — supaya klik tombol tidak
+             memicu submit/reload halaman (perilaku bawaan <form> yang
+             belum kita pelajari cara menanganinya). -->
+        <div class="form-daftar">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" placeholder="Nama kamu">
+
+            <label for="umur">Umur</label>
+            <input type="number" id="umur" placeholder="Umur kamu">
+
+            <button onclick="daftar()">Daftar Sekarang</button>
+        </div>
+
+        <p id="hasil"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

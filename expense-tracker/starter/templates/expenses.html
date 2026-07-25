@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{#
+  expenses.html — Expenses List Template
+  ========================================
+  WHAT'S ON THIS PAGE:
+    1. Page header with expense count
+    2. Search + Filter + Sort bar
+    3. Expenses table with action buttons
+    4. Empty state when no results
+
+  JINJA2 LESSON — Conditionals:
+    "if expenses"     → true if the list is not empty
+    "else"            → runs when list is empty
+    "endif"           → closes the block
+
+  JINJA2 LESSON — Loops:
+    "for expense in expenses"
+      expense.title
+    "endfor"
+
+  TEMPLATE VARIABLES:
+    expenses          → list of expense dicts
+    categories        → list of category names for filter dropdown
+    search            → current search term (to keep the input filled)
+    selected_category → current category filter
+    sort_by           → current sort column
+    order             → current sort direction ('asc' or 'desc')
+#}
+
+{% block content %}
+
+<!-- ── Page Header ──────────────────────────────────────────────────────── -->
+<section class="page-header">
+  <div class="page-header-text">
+    <h1 class="page-title">Expenses</h1>
+    <p class="page-subtitle">
+      {% if expenses %}
+        {{ expenses | length }} expense{% if expenses | length != 1 %}s{% endif %} found
+      {% else %}
+        No expenses found
+      {% endif %}
+    </p>
+  </div>
+  <a href="{{ url_for('create') }}" class="btn btn-primary">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+    Add Expense
+  </a>
+</section>
+
+<!-- ── Filter & Search Bar ──────────────────────────────────────────────── -->
+<!--
+  This form uses GET method — submitting it adds query params to the URL.
+  Example: /expenses?search=coffee&category=Food&sort=amount&order=desc
+  GET is correct here because we're just "searching/filtering", not changing data.
+  GET URLs can be bookmarked and shared!
+-->
+<section class="filter-bar card" aria-label="Filter and search expenses">
+  <form method="GET" action="{{ url_for('expenses') }}" class="filter-form" role="search">
+
+    <!-- Search Input -->
+    <div class="filter-group filter-search">
+      <label for="search" class="sr-only">Search expenses</label>
+      <div class="input-with-icon">
+        <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          id="search"
+          name="search"
+          class="input input-search"
+          placeholder="Search by title or notes..."
+          value="{{ search }}"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="filter-group">
+      <label for="category" class="sr-only">Filter by category</label>
+      <select id="category" name="category" class="input select" onchange="this.form.submit()">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>
+            {{ cat }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Sort Options -->
+    <div class="filter-group">
+      <label for="sort" class="sr-only">Sort by</label>
+      <select id="sort" name="sort" class="input select" onchange="this.form.submit()">
+        <option value="created_at" {% if sort_by == 'created_at' %}selected{% endif %}>Date</option>
+        <option value="amount"     {% if sort_by == 'amount'     %}selected{% endif %}>Amount</option>
+        <option value="title"      {% if sort_by == 'title'      %}selected{% endif %}>Title</option>
+        <option value="category"   {% if sort_by == 'category'   %}selected{% endif %}>Category</option>
+      </select>
+    </div>
+
+    <!-- Sort Order Toggle -->
+    <div class="filter-group">
+      <label for="order" class="sr-only">Sort order</label>
+      <select id="order" name="order" class="input select" onchange="this.form.submit()">
+        <option value="desc" {% if order == 'desc' %}selected{% endif %}>Newest first</option>
+        <option value="asc"  {% if order == 'asc'  %}selected{% endif %}>Oldest first</option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-outline btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        Search
+      </button>
+      {% if search or selected_category %}
+        <a href="{{ url_for('expenses') }}" class="btn btn-ghost btn-sm">Clear</a>
+      {% endif %}
+    </div>
+
+  </form>
+</section>
+
+<!-- ── Expenses Table ────────────────────────────────────────────────────── -->
+{% if expenses %}
+  <section class="card table-card" aria-label="Expenses list">
+    <div class="table-wrapper">
+      <table class="table" aria-label="Your expenses">
+        <thead>
+          <tr>
+            <!-- Sortable column headers -->
+            <th scope="col">
+              <a href="{{ url_for('expenses', search=search, category=selected_category, sort='title', order='asc' if (sort_by == 'title' and order == 'desc') else 'desc') }}" class="th-sort {% if sort_by == 'title' %}th-sort-active{% endif %}">
+                Title
+                <svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  {% if sort_by == 'title' and order == 'asc' %}<polyline points="18 15 12 9 6 15"></polyline>
+                  {% elif sort_by == 'title' and order == 'desc' %}<polyline points="6 9 12 15 18 9"></polyline>
+                  {% else %}<polyline points="8 9 12 5 16 9"></polyline><polyline points="8 15 12 19 16 15"></polyline>{% endif %}
+                </svg>
+              </a>
+            </th>
+            <th scope="col">
+              <a href="{{ url_for('expenses', search=search, category=selected_category, sort='category', order='asc' if (sort_by == 'category' and order == 'desc') else 'desc') }}" class="th-sort {% if sort_by == 'category' %}th-sort-active{% endif %}">
+                Category
+              </a>
+            </th>
+            <th scope="col">
+              <a href="{{ url_for('expenses', search=search, category=selected_category, sort='amount', order='asc' if (sort_by == 'amount' and order == 'desc') else 'desc') }}" class="th-sort {% if sort_by == 'amount' %}th-sort-active{% endif %} text-right">
+                Amount
+              </a>
+            </th>
+            <th scope="col">
+              <a href="{{ url_for('expenses', search=search, category=selected_category, sort='created_at', order='asc' if (sort_by == 'created_at' and order == 'desc') else 'desc') }}" class="th-sort {% if sort_by == 'created_at' %}th-sort-active{% endif %}">
+                Date
+              </a>
+            </th>
+            <th scope="col" class="text-center">Notes</th>
+            <th scope="col" class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for expense in expenses %}
+          <tr class="table-row" data-expense-id="{{ expense.id }}">
+
+            <!-- Title -->
+            <td class="td-title">
+              <span class="expense-title-main">{{ expense.title }}</span>
+            </td>
+
+            <!-- Category Badge -->
+            <td>
+              <span class="badge" data-category="{{ expense.category }}">
+                {{ expense.category }}
+              </span>
+            </td>
+
+            <!-- Amount -->
+            <td class="text-right">
+              <span class="amount-value">{{ expense.formatted_amount }}</span>
+            </td>
+
+            <!-- Date -->
+            <td class="text-muted td-date">
+              {{ expense.created_at }}
+            </td>
+
+            <!-- Notes preview -->
+            <td class="td-notes text-muted">
+              {{ expense.short_notes if expense.short_notes else '—' }}
+            </td>
+
+            <!-- Action Buttons -->
+            <td class="td-actions">
+              <div class="action-buttons">
+                <a href="{{ url_for('edit', expense_id=expense.id) }}"
+                   class="btn-icon btn-icon-edit"
+                   aria-label="Edit {{ expense.title }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </a>
+
+                <!--
+                  Delete button triggers the confirmation modal via JavaScript.
+                  Note: data-* attributes pass information to JavaScript
+                  without polluting the URL or form.
+                -->
+                <button
+                  class="btn-icon btn-icon-delete"
+                  onclick="openDeleteModal('{{ expense.id }}', '{{ expense.title | replace("'", "\\'") }}')"
+                  aria-label="Delete {{ expense.title }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                    <path d="M10 11v6"></path><path d="M14 11v6"></path>
+                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+{% else %}
+  <!-- ── Empty State ──────────────────────────────────────────────────────── -->
+  <div class="card empty-page-state">
+    <div class="empty-state">
+      <div class="empty-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      {% if search or selected_category %}
+        <p class="empty-title">No results found</p>
+        <p class="empty-subtitle">
+          No expenses match your current filters.
+          <a href="{{ url_for('expenses') }}">Clear filters</a> to see all expenses.
+        </p>
+      {% else %}
+        <p class="empty-title">No expenses yet</p>
+        <p class="empty-subtitle">Get started by adding your first expense.</p>
+        <a href="{{ url_for('create') }}" class="btn btn-primary">Add Your First Expense</a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

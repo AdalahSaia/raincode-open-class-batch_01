@@ -1,0 +1,85 @@
+/* style.css */
+/* Topik: Flexbox — Kunci Tata Letak */
+
+/* ============================================================
+   CARA FLEXBOX BEKERJA
+   ============================================================
+   1. Aktifkan dulu di KOTAK PEMBUNGKUS-nya: display: flex;
+   2. Baru atur 4 hal ini di kotak pembungkus yang sama:
+        justify-content -> posisi mendatar (kiri-kanan)
+        align-items     -> posisi tegak (atas-bawah)
+        gap             -> jarak antar elemen di dalamnya
+        flex-direction  -> arah susunan (row = mendatar, column = menurun)
+
+   Ingat: keempatnya ditulis di ELEMEN PEMBUNGKUS,
+   bukan di elemen anak-anaknya.
+   ============================================================ */
+
+body {
+    font-family: Arial;
+    padding: 20px;
+}
+
+
+/* ============================================================
+   BAGIAN 1 — Menu navigasi
+   ============================================================ */
+
+/* TODO 1: Aktifkan flex pada .menu supaya 3 link berjejer mendatar,
+   lalu beri gap: 16px; supaya ada jarak antar link.
+   Pola:
+     .menu {
+         display: flex;
+         gap: 16px;
+     }
+*/
+
+
+/* ============================================================
+   BAGIAN 2 — Chip hobi
+   ============================================================ */
+
+.chip {
+    background: #F3FAF8;
+    border: 1px solid #0D9488;
+    border-radius: 20px;
+    padding: 6px 14px;
+}
+
+/* TODO 2: Aktifkan flex pada .chip-container supaya chip berjejer,
+   lalu tambahkan gap: 8px; antar chip.
+*/
+
+
+/* ============================================================
+   BAGIAN 3 — Kartu berjejer & posisi
+   ============================================================ */
+
+.kartu-kecil {
+    background: #0D9488;
+    color: white;
+    width: 60px;
+    height: 60px;
+    display: flex;             /* sudah diaktifkan supaya huruf A/B/C ke tengah kartu */
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+/* TODO 3: Aktifkan flex pada .kartu-container, lalu:
+     - justify-content: center;   -> tiga kartu menumpuk di TENGAH mendatar
+     - gap: 12px;
+   Pola:
+     .kartu-container {
+         display: flex;
+         justify-content: center;
+         gap: 12px;
+     }
+*/
+
+
+/* TODO 4 (BONUS): Ubah flex-direction: .kartu-container jadi column,
+   lalu amati: kartu tersusun menurun, dan justify-content: center
+   yang tadinya mengatur arah mendatar, sekarang mengatur arah menurun.
+   Ini untuk eksperimen saja — boleh dikembalikan ke row setelah dicoba.
+*/

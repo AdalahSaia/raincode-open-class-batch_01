@@ -1,0 +1,33 @@
+/* style.css */
+/* Sekadar biar enak dilihat — fokus latihan ini ada di script.js, bukan di sini. */
+
+body {
+    font-family: Arial;
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+input {
+    padding: 8px;
+    margin-right: 8px;
+}
+
+button {
+    background: #0D9488;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0F766E;
+}
+
+#hasil,
+#hasilUmur {
+    font-weight: bold;
+    color: #0F766E;
+}

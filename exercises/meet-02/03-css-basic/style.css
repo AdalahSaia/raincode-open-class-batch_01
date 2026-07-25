@@ -1,0 +1,98 @@
+/* style.css */
+/* Topik: Properti CSS Dasar & Box Model */
+
+/* ============================================================
+   CARA CSS BEKERJA
+   ============================================================
+   Polanya selalu sama:
+
+       selector {
+           properti: nilai;
+       }
+
+   selector  -> elemen HTML mana yang diatur (bisa tag, atau .class)
+   properti  -> apa yang diatur (warna? jarak? ukuran?)
+   nilai     -> diatur jadi apa
+
+   Kesalahan umum: lupa titik koma ; di akhir baris, lupa satuan px,
+   salah tulis nama properti (colour, bukan color).
+   ============================================================ */
+
+
+/* ============================================================
+   BAGIAN 1 — Warna & ukuran huruf
+   ============================================================ */
+
+/* TODO 1: Beri warna hijau ke .teks-hijau
+   Pola:
+     .teks-hijau {
+         color: green;
+     }
+*/
+
+
+/* TODO 2: Perbesar ukuran huruf .teks-besar jadi 24px
+   Pola:
+     .teks-besar {
+         font-size: 24px;
+     }
+*/
+
+
+/* ============================================================
+   BAGIAN 2 — Box Model: padding vs margin
+   ============================================================
+   Ingat bedanya:
+     padding = jarak DI DALAM kotak (isi ke tepi kotak)
+     margin  = jarak DI LUAR kotak (kotak ke tetangganya)
+
+   Supaya bedanya kelihatan jelas, beri background & border dulu.
+*/
+
+.kotak-padding {
+    background: #FCFAF5;
+    border: 1px solid #0D9488;
+}
+
+.kotak-margin {
+    background: #F3FAF8;
+    border: 1px solid #0D9488;
+}
+
+/* TODO 3: Tambahkan padding: 24px; ke .kotak-padding
+   Lihat hasilnya — jarak antara tulisan "Kotak Padding" dengan
+   tepi kotaknya jadi lebih lega.
+*/
+
+
+/* TODO 4: Tambahkan margin: 16px; ke .kotak-margin
+   Lihat hasilnya — jarak ANTARA dua "Kotak Margin" jadi lebih lega,
+   tapi jarak tulisan ke tepi kotaknya sendiri TIDAK berubah.
+*/
+
+
+/* ============================================================
+   BAGIAN 3 — Kartu sederhana
+   ============================================================ */
+
+/* TODO 5: Lengkapi .kartu supaya terlihat seperti kartu:
+     - background: white;
+     - padding: 20px;
+     - border-radius: 12px;
+     - width: 320px;
+   Pola:
+     .kartu {
+         background: white;
+         padding: 20px;
+         border-radius: 12px;
+         width: 320px;
+     }
+*/
+
+
+/* ============================================================
+   BONUS (opsional)
+   ============================================================
+   Beri body warna latar #F3FAF8 dan font-family: Arial;
+   supaya seluruh halaman terasa lebih rapi.
+*/

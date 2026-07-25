@@ -1,0 +1,96 @@
+/* style.css */
+/* Topik: Profil Polos -> Cantik dengan CSS */
+
+/* ============================================================
+   MISI KAMU
+   ============================================================
+   HTML profil di index.html isinya SAMA seperti di 02-html-profile —
+   yang beda cuma dibungkus <div class="card">. Tugasmu: sulap kartu
+   polos itu jadi cantik, murni lewat CSS di file ini.
+
+   Ini cara kerja frontend sehari-hari: susun struktur dulu (HTML),
+   baru percantik (CSS).
+   ============================================================ */
+
+
+/* ============================================================
+   BAGIAN 1 — Latar halaman
+   ============================================================ */
+
+/* TODO 1: Beri body warna latar & jenis huruf.
+   Pola:
+     body {
+         background: #F3FAF8;
+         font-family: Arial;
+     }
+*/
+
+
+/* ============================================================
+   BAGIAN 2 — Bungkus jadi kartu
+   ============================================================ */
+
+/* TODO 2: Lengkapi .card supaya jadi kotak kartu yang rapi:
+     - background: white;
+     - max-width: 340px;
+     - margin: 40px auto;      <- "auto" bikin kartu ke tengah halaman
+     - padding: 24px;
+     - border-radius: 16px;
+     - text-align: center;
+   Pola:
+     .card {
+         background: white;
+         max-width: 340px;
+         margin: 40px auto;
+         padding: 24px;
+         border-radius: 16px;
+         text-align: center;
+     }
+*/
+
+
+/* ============================================================
+   BAGIAN 3 — Detail: foto & judul
+   ============================================================ */
+
+/* TODO 3: Buat .foto jadi bulat.
+   Pola:
+     .foto {
+         width: 100px;
+         border-radius: 50%;   <- 50% pada elemen persegi = jadi lingkaran
+     }
+*/
+
+
+/* TODO 4: Beri warna pada h1 di dalam kartu.
+   Pola:
+     h1 {
+         color: #0F766E;
+     }
+*/
+
+
+/* ============================================================
+   BAGIAN 4 — Tombol "Hubungi Saya"
+   ============================================================ */
+
+/* TODO 5: Lengkapi .btn supaya terlihat seperti tombol, bukan tautan biasa:
+     - background: #0D9488;
+     - color: white;
+     - padding: 8px 20px;
+     - border-radius: 20px;
+   Perhatikan: karena .btn ini elemen <a>, tambahkan juga
+     text-decoration: none;
+   supaya garis bawah bawaan tautan hilang.
+*/
+
+
+/* ============================================================
+   BONUS (opsional)
+   ============================================================
+   - Beri .daftar-hobi jarak antar item pakai margin pada li-nya.
+   - Tambahkan efek saat kursor menghover tombol:
+       .btn:hover {
+           background: #0F766E;
+       }
+*/

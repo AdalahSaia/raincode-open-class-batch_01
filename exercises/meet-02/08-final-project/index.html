@@ -1,0 +1,74 @@
+<!-- index.html -->
+<!-- Topik: Mini Project Akhir — Personal Profile Website Utuh -->
+<!-- Inilah puncaknya: semua yang dipelajari Bagian 1-7 digabung jadi
+     satu Personal Profile Website — foto, nama, deskripsi, hobi,
+     kontak, form pesan, dan tombol sapaan yang benar-benar bekerja. -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Saya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+
+        <header>
+            <img src="https://placehold.co/100x100" alt="Foto Profil" class="foto">
+            <h1>Nama Kamu</h1>
+            <p class="peran">Web Developer &middot; Kotamu</p>
+
+            <!-- TODO 1: Ganti paragraf di bawah dengan cerita singkat
+                 tentang dirimu (2-3 kalimat). -->
+            <p class="deskripsi">Belajar membuat website di RainCode. Terbuka untuk kolaborasi!</p>
+        </header>
+
+        <!-- ============================================================
+             Hobi — chip flexbox (pola dari 05-flexbox)
+             ============================================================ -->
+        <section>
+            <!-- TODO 2: Ganti isi 3 chip di bawah dengan hobimu sendiri.
+                 Boleh tambah/kurangi jumlah <span class="chip">. -->
+            <div class="chip-container">
+                <span class="chip">Desain</span>
+                <span class="chip">Fotografi</span>
+                <span class="chip">Ngopi</span>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Kontak — tautan sosial media (pola dari 05-flexbox)
+             ============================================================ -->
+        <section>
+            <!-- TODO 3: Ganti href di bawah dengan tautan sosial mediamu.
+                 Boleh tambah lebih banyak <a class="social-link">. -->
+            <div class="social-links">
+                <a href="#" class="social-link">Instagram</a>
+                <a href="#" class="social-link">LinkedIn</a>
+                <a href="#" class="social-link">GitHub</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Form — kirim pesan (pola dari 07-dom-interaction)
+             ============================================================ -->
+        <section class="form-pesan">
+            <input type="text" id="pesan" placeholder="Pesan kamu...">
+            <div class="tombol-group">
+                <button onclick="kirimPesan()">Kirim</button>
+                <button onclick="sapa()" class="btn-utama">Sapa Saya 👋</button>
+            </div>
+            <p id="hasilPesan"></p>
+            <p id="hasilSapaan"></p>
+        </section>
+
+        <footer>
+            <p>Dibuat dengan RainCode Open Class</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

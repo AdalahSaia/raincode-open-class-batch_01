@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{#
+  edit.html — Edit Expense Form
+  ================================
+  Very similar to create.html, but:
+  1. Pre-fills form fields with EXISTING expense data
+  2. Submits to /edit/<id> instead of /create
+  3. Shows the expense ID and creation date for reference
+
+  KEY DIFFERENCE FROM create.html:
+    value="form_data.get('title', expense.title)"
+    → First checks form_data (re-fill after validation error)
+    → Falls back to expense.title (the original value on first GET load)
+
+  TEMPLATE VARIABLES:
+    expense    → the current expense data (for pre-filling)
+    form_data  → submitted data if coming back from a validation error
+    categories → list of valid category names
+#}
+
+{% block content %}
+
+<!-- ── Page Header ──────────────────────────────────────────────────────── -->
+<section class="page-header">
+  <div class="page-header-text">
+    <h1 class="page-title">Edit Expense</h1>
+    <p class="page-subtitle">
+      Editing: <strong>{{ expense.title }}</strong>
+      &nbsp;·&nbsp;
+      <span class="text-muted">ID #{{ expense.id }}</span>
+    </p>
+  </div>
+  <a href="{{ url_for('expenses') }}" class="btn btn-outline">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back
+  </a>
+</section>
+
+<!-- ── Form Card ────────────────────────────────────────────────────────── -->
+<div class="form-layout">
+  <section class="card form-card" aria-labelledby="edit-form-title">
+    <h2 class="form-card-title" id="edit-form-title">Update Details</h2>
+
+    <!--
+      Note the action URL: url_for('edit', expense_id=expense.id)
+      This creates: /edit/42 (where 42 is the expense's database ID)
+    -->
+    <form
+      action="{{ url_for('edit', expense_id=expense.id) }}"
+      method="POST"
+      novalidate
+      id="expenseForm"
+      aria-label="Edit expense form"
+    >
+
+      <!-- ── Title Field ────────────────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="title" class="form-label">
+          Title
+          <span class="required-star" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="input"
+          placeholder="e.g. Morning Coffee, Bus Ticket, Electricity Bill"
+          value="{{ form_data.get('title', expense.title) }}"
+          maxlength="200"
+          required
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- ── Amount & Category ─────────────────────────────────────────── -->
+      <div class="form-row">
+
+        <!-- Amount -->
+        <div class="form-group">
+          <label for="amount" class="form-label">
+            Amount
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-with-prefix">
+            <span class="input-prefix" aria-hidden="true">Rp</span>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              class="input input-with-prefix-field"
+              placeholder="0.00"
+              value="{{ form_data.get('amount', expense.amount) }}"
+              min="0.01"
+              step="0.01"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category" class="form-label">
+            Category
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <select id="category" name="category" class="input select" required>
+            <option value="" disabled>Select a category...</option>
+            {% for cat in categories %}
+              <option
+                value="{{ cat }}"
+                {% if form_data.get('category', expense.category) == cat %}selected{% endif %}
+              >
+                {{ cat }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+      </div>
+
+      <!-- ── Notes Field ────────────────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="notes" class="form-label">
+          Notes
+          <span class="form-label-optional">(optional)</span>
+        </label>
+        <textarea
+          id="notes"
+          name="notes"
+          class="input textarea"
+          placeholder="Any additional details..."
+          maxlength="1000"
+          rows="3"
+        >{{ form_data.get('notes', expense.notes) }}</textarea>
+      </div>
+
+      <!-- ── Metadata (read-only reference) ──────────────────────────────── -->
+      <div class="metadata-row">
+        <div class="metadata-item">
+          <span class="metadata-label">Created</span>
+          <span class="metadata-value">{{ expense.created_at }}</span>
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Last Updated</span>
+          <span class="metadata-value">{{ expense.updated_at }}</span>
+        </div>
+      </div>
+
+      <!-- ── Form Actions ───────────────────────────────────────────────── -->
+      <div class="form-actions">
+        <a href="{{ url_for('expenses') }}" class="btn btn-outline">Cancel</a>
+
+        <!--
+          Danger zone: Delete button.
+          Opens the confirmation modal instead of directly deleting.
+          JavaScript handles setting the form action URL.
+        -->
+        <button
+          type="button"
+          class="btn btn-danger-outline"
+          onclick="openDeleteModal('{{ expense.id }}', '{{ expense.title | replace("'", "\\'") }}')"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+            <path d="M10 11v6"></path><path d="M14 11v6"></path>
+          </svg>
+          Delete
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Save Changes
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
+  <aside class="form-sidebar" aria-label="Expense info">
+    <div class="card tip-card">
+      <h3 class="tip-title">Current Values</h3>
+      <dl class="detail-list">
+        <dt>Title</dt>
+        <dd>{{ expense.title }}</dd>
+        <dt>Amount</dt>
+        <dd>{{ expense.formatted_amount }}</dd>
+        <dt>Category</dt>
+        <dd><span class="badge" data-category="{{ expense.category }}">{{ expense.category }}</span></dd>
+      </dl>
+    </div>
+  </aside>
+</div>
+
+{% endblock %}

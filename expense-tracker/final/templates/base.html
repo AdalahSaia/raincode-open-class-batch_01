@@ -1,0 +1,213 @@
+{#
+  base.html — Master Layout Template
+  =====================================
+  WHY THIS FILE EXISTS:
+    Every HTML page in the app shares the same structure:
+    - <head> with CSS links
+    - Navigation bar
+    - Flash messages
+    - Footer
+    - JavaScript
+
+    Without base.html: You'd copy-paste the nav into every page.
+    With base.html: Child templates "extend" this and only write the unique content.
+
+  JINJA2 TEMPLATE INHERITANCE:
+    This is base.html (the parent).
+    Other templates like index.html do:
+      extends "base.html"
+      block content ... their unique content ... endblock
+
+    Jinja2 replaces the block content placeholder with the child's content.
+    Everything else stays the same across all pages.
+
+  SEMANTIC HTML:
+    We use proper HTML5 semantic elements instead of generic divs:
+    <header>  → page/section header
+    <nav>     → navigation links
+    <main>    → the primary content of the page
+    <footer>  → page footer
+    This improves accessibility (screen readers) and SEO.
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    WHY viewport meta tag?
+    Without it, mobile browsers zoom out to show the "desktop" version.
+    With it, the page fills the screen at natural size — enabling responsive design.
+  -->
+
+  <title>{% block title %}{{ page_title }} · RainCode Expense Tracker{% endblock %}</title>
+
+  <!-- Google Fonts: Inter — clean, modern, used by Notion, Linear, Stripe -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Our main stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- Child templates can inject extra CSS here -->
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION                                                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <header class="navbar">
+    <div class="nav-inner">
+
+      <!-- Brand / Logo -->
+      <a href="{{ url_for('index') }}" class="nav-brand" aria-label="RainCode Expense Tracker home">
+        <span class="brand-icon" aria-hidden="true">
+          <!-- Simple SVG wallet icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+        </span>
+        <span class="brand-name">RainCode <span class="brand-accent">Expense</span></span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
+        <a href="{{ url_for('index') }}"    class="nav-link" data-page="index">Dashboard</a>
+        <a href="{{ url_for('expenses') }}" class="nav-link" data-page="expenses">Expenses</a>
+        <a href="{{ url_for('summary') }}"  class="nav-link" data-page="summary">Summary</a>
+      </nav>
+
+      <!-- CTA Button + Hamburger -->
+      <div class="nav-actions">
+        <a href="{{ url_for('create') }}" class="btn btn-primary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Expense
+        </a>
+
+        <!-- Mobile menu toggle -->
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- FLASH MESSAGES                                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--
+    Flash messages are one-time notifications that appear after an action.
+    Flask stores them temporarily in the session.
+    get_flashed_messages() retrieves and clears them — they only show ONCE.
+
+    with_categories=True lets us use different styles:
+    - "success" → green (expense created)
+    - "error"   → red   (validation failed)
+  -->
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div class="flash-stack" id="flashStack" role="alert" aria-live="polite">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">
+            <span class="flash-icon" aria-hidden="true">
+              {% if category == 'success' %}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              {% else %}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              {% endif %}
+            </span>
+            <span class="flash-text">{{ message }}</span>
+            <button class="flash-close" onclick="this.closest('.flash').remove()" aria-label="Dismiss">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT                                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <main class="main" id="main-content">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">
+        Built for
+        <a href="#" class="footer-link">RainCode Open Class</a>
+        &nbsp;·&nbsp; Python + Flask + SQLite
+      </p>
+      <p class="footer-text footer-right">
+        Learning by building &mdash; the RainCode way
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- DELETE CONFIRMATION MODAL                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--
+    This modal is hidden by default (display:none in CSS).
+    When user clicks a Delete button, JavaScript shows this modal
+    and fills in the expense name and form action URL.
+
+    WHY A MODAL FOR DELETE?
+    Prevents accidental deletions. The user must confirm intentionally.
+    Also good UX practice — always confirm destructive actions.
+  -->
+  <div class="modal-backdrop" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-icon modal-icon-danger" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+        </div>
+        <div>
+          <h2 class="modal-title" id="deleteModalTitle">Delete Expense</h2>
+          <p class="modal-subtitle">This action cannot be undone.</p>
+        </div>
+      </div>
+      <p class="modal-body">
+        Are you sure you want to delete
+        <strong id="deleteExpenseName" class="modal-expense-name"></strong>?
+      </p>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+        <form id="deleteForm" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--
+    WHY put scripts at the BOTTOM of <body>?
+    JavaScript at the top of <body> blocks the browser from rendering HTML.
+    Scripts at the bottom let the page display first, then run JS.
+    This makes the page feel faster to load.
+  -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

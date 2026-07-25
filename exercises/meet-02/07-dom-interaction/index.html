@@ -1,0 +1,34 @@
+<!-- index.html -->
+<!-- Topik: DOM Interaction — Ambil Input, Proses, Tampilkan Hasil -->
+<!-- File ini sudah lengkap. Semua tugasmu ada di script.js. -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan Interaksi Pertama</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Interaksi Pertama</h1>
+    <p>Ketik namamu, klik tombol, lihat sapaan muncul.</p>
+
+    <!-- Tiga bahan interaksi:
+         1. <input>  -> tempat user mengetik
+         2. <button> -> pemicu aksi (lihat atribut onclick)
+         3. <p>      -> tempat hasil ditampilkan -->
+    <input type="text" id="nama" placeholder="Ketik namamu">
+    <button onclick="sapa()">Sapa Saya</button>
+    <p id="hasil"></p>
+
+    <hr>
+
+    <h2>Bonus — Hitung Umur</h2>
+    <p>Latihan kedua: gabungkan angka dari input dengan logika if/else.</p>
+    <input type="number" id="umur" placeholder="Umur kamu">
+    <button onclick="cekUmur()">Cek Status</button>
+    <p id="hasilUmur"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>

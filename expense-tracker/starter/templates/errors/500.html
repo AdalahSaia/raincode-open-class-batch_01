@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+<!--
+  errors/500.html — Internal Server Error
+  ==========================================
+  Shown when an unexpected error occurs on the server side.
+
+  IMPORTANT: Never show the actual error message to users.
+  - It might reveal sensitive information about your code
+  - It's confusing for non-technical users
+  - It looks unprofessional
+
+  Instead: Log the full error in logs/app.log, show a friendly message to the user.
+  Developers read the logs. Users read the friendly message.
+-->
+
+{% block content %}
+
+<div class="error-page">
+  <div class="error-code" aria-hidden="true">500</div>
+  <h1 class="error-title">Something Went Wrong</h1>
+  <p class="error-message">
+    An unexpected error occurred on our end. We've logged the issue and will look into it.
+    <br />Please try again in a moment.
+  </p>
+  <div class="error-actions">
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Go to Dashboard</a>
+    <a href="javascript:history.back()" class="btn btn-outline">Go Back</a>
+  </div>
+</div>
+
+{% endblock %}

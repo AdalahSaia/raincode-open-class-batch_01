@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{#
+  index.html — Dashboard Template
+  =================================
+  JINJA2 LESSON:
+    "extends base.html"
+      → This template inherits everything from base.html
+
+    "block content" ... "endblock"
+      → This replaces the block content placeholder in base.html
+
+  WHAT'S ON THIS PAGE:
+    1. Page header with greeting
+    2. Stats row: Total Spent, # Transactions, Average, Largest Category
+    3. Recent Transactions table
+    4. Category Breakdown with progress bars
+
+  TEMPLATE VARIABLES (passed from app.py):
+    summary          → dict: total_amount, formatted_total, expense_count, average_amount
+    recent_expenses  → list of expense dicts
+    category_totals  → list of dicts with category, formatted_amount, expense_count, percentage
+#}
+
+{% block content %}
+
+<!-- ── Page Header ──────────────────────────────────────────────────────── -->
+<section class="page-header">
+  <div class="page-header-text">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Overview of your spending activity</p>
+  </div>
+  <a href="{{ url_for('create') }}" class="btn btn-primary">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+    Add Expense
+  </a>
+</section>
+
+<!-- ── Stats Row ────────────────────────────────────────────────────────── -->
+{#
+  JINJA2 FILTERS:
+  summary.formatted_total | default('0.00')
+  The `default` filter returns '0.00' if formatted_total is undefined or falsy.
+  Prevents errors when the database is empty.
+#}
+<section class="stats-grid" aria-label="Spending statistics">
+
+  <article class="stat-card">
+    <div class="stat-icon stat-icon-primary" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+    </div>
+    <div class="stat-content">
+      <p class="stat-label">Total Spent</p>
+      <p class="stat-value">{{ summary.formatted_total | default('0.00') }}</p>
+    </div>
+  </article>
+
+  <article class="stat-card">
+    <div class="stat-icon stat-icon-blue" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    </div>
+    <div class="stat-content">
+      <p class="stat-label">Transactions</p>
+      <p class="stat-value">{{ summary.expense_count | default(0) }}</p>
+    </div>
+  </article>
+
+  <article class="stat-card">
+    <div class="stat-icon stat-icon-green" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+    </div>
+    <div class="stat-content">
+      <p class="stat-label">Average</p>
+      <p class="stat-value">{{ summary.average_amount | default('0.00') }}</p>
+    </div>
+  </article>
+
+  <article class="stat-card">
+    <div class="stat-icon stat-icon-orange" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+    </div>
+    <div class="stat-content">
+      <p class="stat-label">Categories</p>
+      <p class="stat-value">{{ category_totals | length }}</p>
+    </div>
+  </article>
+
+</section>
+
+<!-- ── Content Grid (two columns on desktop) ────────────────────────────── -->
+<div class="dashboard-grid">
+
+  <!-- ── Recent Transactions ────────────────────────────────────────────── -->
+  <section class="card" aria-labelledby="recent-heading">
+    <div class="card-header">
+      <h2 class="card-title" id="recent-heading">Recent Transactions</h2>
+      <a href="{{ url_for('expenses') }}" class="card-link">View all →</a>
+    </div>
+
+    {% if recent_expenses %}
+      <div class="table-wrapper">
+        <table class="table" aria-label="Recent expenses">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col" class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for expense in recent_expenses %}
+            <tr>
+              <td>
+                <span class="expense-title">{{ expense.title }}</span>
+                <span class="expense-date text-muted">{{ expense.created_at }}</span>
+              </td>
+              <td>
+                <span class="badge" data-category="{{ expense.category }}">
+                  {{ expense.category }}
+                </span>
+              </td>
+              <td class="text-right">
+                <span class="amount">{{ expense.formatted_amount }}</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <!-- Empty state — shown when no expenses have been added yet -->
+      <div class="empty-state">
+        <div class="empty-icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+        </div>
+        <p class="empty-title">No expenses yet</p>
+        <p class="empty-subtitle">Add your first expense to get started</p>
+        <a href="{{ url_for('create') }}" class="btn btn-primary btn-sm">Add Expense</a>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- ── Category Breakdown ─────────────────────────────────────────────── -->
+  <section class="card" aria-labelledby="category-heading">
+    <div class="card-header">
+      <h2 class="card-title" id="category-heading">By Category</h2>
+      <a href="{{ url_for('summary') }}" class="card-link">Full summary →</a>
+    </div>
+
+    {% if category_totals %}
+      <div class="category-list">
+        {% for item in category_totals %}
+        <div class="category-row">
+          <div class="category-info">
+            <span class="category-dot" data-category="{{ item.category }}" aria-hidden="true"></span>
+            <div class="category-text">
+              <span class="category-name">{{ item.category }}</span>
+              <span class="category-count text-muted">{{ item.expense_count }} expense{% if item.expense_count != 1 %}s{% endif %}</span>
+            </div>
+          </div>
+          <div class="category-right">
+            <span class="category-amount">{{ item.formatted_amount }}</span>
+            <span class="category-percent text-muted">{{ item.percentage }}%</span>
+          </div>
+        </div>
+        <!-- Progress bar showing percentage of total spending -->
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ item.percentage }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ item.category }}: {{ item.percentage }}% of spending">
+          <div class="progress-fill" data-category="{{ item.category }}" style="width: {{ item.percentage }}%"></div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p class="empty-subtitle">No spending data to display yet.</p>
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+
+{% endblock %}

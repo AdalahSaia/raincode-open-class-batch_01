@@ -1,0 +1,59 @@
+/* style.css */
+/* Solusi Challenge Medium — Menu Kedai Kopi */
+
+body {
+    font-family: Arial;
+    background: #F3FAF8;
+    text-align: center;
+    padding: 20px;
+}
+
+header {
+    margin-bottom: 24px;
+}
+
+h1 {
+    color: #0F766E;
+}
+
+/* Nav berjejer mendatar */
+.menu-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.menu-nav a {
+    color: #0D9488;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Kartu menu berjejer mendatar */
+.daftar-menu {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.kartu-menu {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    width: 160px;
+}
+
+.kartu-menu img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.nama-menu {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.harga {
+    color: #0D9488;
+}

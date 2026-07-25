@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+<!--
+  errors/404.html — Page Not Found Error
+  =========================================
+  Shown when a user visits a URL that doesn't exist.
+  Examples:
+  - /expenses/999 (expense ID 999 doesn't exist)
+  - /typo in URL
+  - An old bookmarked URL that no longer works
+
+  Flask automatically uses this template when a 404 error occurs,
+  because of the @app.errorhandler(404) decorator in app.py.
+-->
+
+{% block content %}
+
+<div class="error-page">
+  <div class="error-code" aria-hidden="true">404</div>
+  <h1 class="error-title">Page Not Found</h1>
+  <p class="error-message">
+    The page you're looking for doesn't exist or has been moved.
+  </p>
+  <div class="error-actions">
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Go to Dashboard</a>
+    <a href="{{ url_for('expenses') }}" class="btn btn-outline">View Expenses</a>
+  </div>
+</div>
+
+{% endblock %}

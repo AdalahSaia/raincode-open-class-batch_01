@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{#
+  create.html — Create Expense Form
+  ====================================
+  WHAT'S ON THIS PAGE:
+    A form to create a new expense with fields:
+    - Title (text input, required)
+    - Amount (number input, required)
+    - Category (dropdown select, required)
+    - Notes (textarea, optional)
+    - Submit and Cancel buttons
+
+  HTML FORM LESSON:
+    <form method="POST" action="/create">
+    ↑ method="POST" → sends data in the request body (not visible in URL)
+    ↑ action="/create" → which URL receives the form submission
+
+    <input name="title"> → the name attribute is the key in request.form
+    Flask reads: request.form.get("title")
+
+  ACCESSIBILITY (a11y) BEST PRACTICES:
+    <label for="title"> paired with <input id="title">
+    → Screen readers announce "Title" when the input is focused
+    → Clicking the label focuses the input (better UX)
+
+  VALUE RE-FILL:
+    When validation fails, Flask re-renders this form with form_data filled in.
+    form_data.get('title', '') shows the user's previous input.
+    This prevents users from having to retype everything after an error.
+
+  TEMPLATE VARIABLES:
+    categories → list of valid category names for the select dropdown
+    form_data  → dict of previously submitted values (empty on first load)
+#}
+
+{% block content %}
+
+<!-- ── Page Header ──────────────────────────────────────────────────────── -->
+<section class="page-header">
+  <div class="page-header-text">
+    <h1 class="page-title">New Expense</h1>
+    <p class="page-subtitle">Record a new expense entry</p>
+  </div>
+  <a href="{{ url_for('expenses') }}" class="btn btn-outline">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back
+  </a>
+</section>
+
+<!-- ── Form Card ────────────────────────────────────────────────────────── -->
+<div class="form-layout">
+  <section class="card form-card" aria-labelledby="create-form-title">
+    <h2 class="form-card-title" id="create-form-title">Expense Details</h2>
+
+    {#
+      action="url_for('create')" → points to the /create route
+      method="POST" → sends data in the request body (secure)
+      novalidate → disables browser's built-in validation so we can style our own
+    #}
+    <form
+      action="{{ url_for('create') }}"
+      method="POST"
+      novalidate
+      id="expenseForm"
+      aria-label="Create expense form"
+    >
+
+      <!-- ── Title Field ────────────────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="title" class="form-label">
+          Title
+          <span class="required-star" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="input"
+          placeholder="e.g. Morning Coffee, Bus Ticket, Electricity Bill"
+          value="{{ form_data.get('title', '') }}"
+          maxlength="200"
+          required
+          autocomplete="off"
+          aria-describedby="title-hint"
+        />
+        <p id="title-hint" class="form-hint">A short description of what you spent on.</p>
+      </div>
+
+      <!-- ── Amount & Category (two-column on desktop) ─────────────────── -->
+      <div class="form-row">
+
+        <!-- Amount Field -->
+        <div class="form-group">
+          <label for="amount" class="form-label">
+            Amount
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-with-prefix">
+            <span class="input-prefix" aria-hidden="true">Rp</span>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              class="input input-with-prefix-field"
+              placeholder="0.00"
+              value="{{ form_data.get('amount', '') }}"
+              min="0.01"
+              step="0.01"
+              required
+              aria-describedby="amount-hint"
+            />
+          </div>
+          <p id="amount-hint" class="form-hint">Enter the amount in your local currency.</p>
+        </div>
+
+        <!-- Category Field -->
+        <div class="form-group">
+          <label for="category" class="form-label">
+            Category
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <select
+            id="category"
+            name="category"
+            class="input select"
+            required
+            aria-describedby="category-hint"
+          >
+            <option value="" disabled {% if not form_data.get('category') %}selected{% endif %}>
+              Select a category...
+            </option>
+            {% for cat in categories %}
+              <option
+                value="{{ cat }}"
+                {% if form_data.get('category') == cat %}selected{% endif %}
+              >
+                {{ cat }}
+              </option>
+            {% endfor %}
+          </select>
+          <p id="category-hint" class="form-hint">Choose the category that best fits.</p>
+        </div>
+
+      </div>
+
+      <!-- ── Notes Field ────────────────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="notes" class="form-label">
+          Notes
+          <span class="form-label-optional">(optional)</span>
+        </label>
+        <textarea
+          id="notes"
+          name="notes"
+          class="input textarea"
+          placeholder="Any additional details, receipts, or context..."
+          maxlength="1000"
+          rows="3"
+          aria-describedby="notes-hint"
+        >{{ form_data.get('notes', '') }}</textarea>
+        <p id="notes-hint" class="form-hint">Extra details to help you remember this expense later.</p>
+      </div>
+
+      <!-- ── Form Actions ───────────────────────────────────────────────── -->
+      <div class="form-actions">
+        <a href="{{ url_for('expenses') }}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Save Expense
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- ── Sidebar Tips ─────────────────────────────────────────────────── -->
+  <aside class="form-sidebar" aria-label="Tips">
+    <div class="card tip-card">
+      <h3 class="tip-title">Tips</h3>
+      <ul class="tip-list">
+        <li>Be specific with titles — "Grab to Office" is better than "Transport"</li>
+        <li>Add notes for receipts or approval codes you might need later</li>
+        <li>Record expenses right away before you forget the details</li>
+      </ul>
+    </div>
+
+    <div class="card tip-card">
+      <h3 class="tip-title">Categories</h3>
+      <ul class="category-guide">
+        {% for cat in categories %}
+        <li>
+          <span class="badge badge-sm" data-category="{{ cat }}">{{ cat }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+# .gitignore — Files to Exclude from Git
+# ==========================================
+#
+# WHY THIS FILE EXISTS:
+#   Some files should NEVER be committed to git:
+#   - .env → contains secrets (passwords, API keys)
+#   - database/*.db → SQLite data files (each developer has their own)
+#   - __pycache__ → Python's compiled bytecode cache (auto-generated)
+#   - venv/envku/ → virtual environment (each developer installs their own)
+#   - logs/ → log files are generated at runtime, not code
+#
+# HOW GIT USES THIS:
+#   Git ignores any file/folder matching these patterns.
+#   They won't appear in "git status" and can't be accidentally committed.
+
+# ── Secrets & Config ──────────────────────────────────────────────────────────
+.env
+*.env.local
+
+# ── Database files ────────────────────────────────────────────────────────────
+database/*.db
+database/*.db-shm
+database/*.db-wal
+
+# ── Python Cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+.pytest_cache/
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+venv/
+env/
+.venv/
+envku/
+.env.bak
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+logs/*.log
+
+# ── IDEs & Editors ────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ── Distribution / Packaging ──────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/

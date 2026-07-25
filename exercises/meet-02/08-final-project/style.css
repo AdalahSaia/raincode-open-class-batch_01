@@ -1,0 +1,145 @@
+/* style.css */
+/* Topik: Mini Project Akhir — Personal Profile Website Utuh */
+
+/* ============================================================
+   Bagian ini SUDAH LENGKAP — memakai pola yang sudah kamu latih
+   di 04-css-profile dan 05-flexbox. Baca dulu supaya paham,
+   TODO kamu ada di bagian paling bawah file ini.
+   ============================================================ */
+
+body {
+    background: #F3FAF8;
+    font-family: Arial;
+    padding: 20px 0;
+}
+
+.card {
+    background: white;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 24px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.foto {
+    width: 100px;
+    border-radius: 50%;
+}
+
+h1 {
+    color: #0F766E;
+    margin-bottom: 4px;
+}
+
+.peran {
+    color: #555;
+    margin-top: 0;
+}
+
+.deskripsi {
+    font-size: 14px;
+}
+
+/* Chip hobi — pola flexbox dari 05-flexbox */
+.chip-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    background: #F3FAF8;
+    border: 1px solid #0D9488;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+/* Tautan sosial — pola flexbox yang sama */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.social-link {
+    color: #0D9488;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Form pesan */
+.form-pesan {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+#pesan {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.tombol-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#hasilPesan,
+#hasilSapaan {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0F766E;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+}
+
+
+/* ============================================================
+   TUGASMU
+   ============================================================ */
+
+/* TODO 4: Beri warna latar pada tombol biasa (tombol "Kirim").
+   Pola:
+     button {
+         background: #eee;
+     }
+   (Aturan `button` di atas sudah ada — cukup tambahkan baris
+   `background` di dalamnya, atau buat aturan baru untuk tombol.)
+*/
+
+
+/* TODO 5: Beri warna pada .btn-utama ("Sapa Saya") supaya beda
+   dan lebih menonjol dari tombol "Kirim". Boleh pakai warna
+   favoritmu sendiri — ini bagian personalisasi PR minggu ini!
+   Pola:
+     .btn-utama {
+         background: #0D9488;
+         color: white;
+     }
+*/
+
+
+/* TODO 6 (BONUS): Tambahkan efek hover pada .btn-utama.
+   Pola:
+     .btn-utama:hover {
+         background: #0F766E;
+     }
+*/
