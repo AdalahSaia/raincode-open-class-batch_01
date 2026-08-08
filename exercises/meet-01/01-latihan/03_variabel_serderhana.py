@@ -15,7 +15,17 @@
 #   Saya tinggal di Bandung
 
 # Tulis kode kamu di sini:
+nama = "Khafifatul"
+umur = 20
+kota = "Jawa Tengah"
 
+print(f"Halo, nama saya {nama}")
+print(f"Umur saya {umur} tahun")
+print(f"Saya tinggal di {kota}")
+#output:
+Halo, nama saya Khafifatul
+Umur saya 20 tahun
+Saya tinggal di Jawa Tengah
 
 # ============================================================
 # BAGIAN 2 — Ubah nilai variabel
@@ -23,7 +33,19 @@
 # Setelah Bagian 1 berhasil, coba ini:
 # Ganti nilai variabel nama dan kota dengan data orang lain,
 # lalu jalankan lagi — apakah outputnya ikut berubah?
-#
+#ini setelah mengganti variabel:
+nama = "Arya Mohan"
+umur = 18
+kota = "Asrama Gen Z"
+
+print(f"Halo, nama saya {nama}")
+print(f"Umur saya {umur} tahun")
+print(f"Saya tinggal di {kota}")
+#output:
+Halo, nama saya Arya Mohan
+Umur saya 18 tahun
+Saya tinggal di Asrama Gen Z
+
 # Ini yang bikin variabel berguna: cukup ganti nilainya di satu
 # tempat, outputnya otomatis berubah di mana-mana.
 
@@ -39,3 +61,17 @@
 # ============================================================
 # Tambahkan variabel hobi, lalu cetak juga:
 # "Hobi saya <hobi>"
+nama = "Arya Mohan"
+umur = 18
+kota = "Asrama Gen Z"
+hobi = "Memandangi gambar harimau di dinding"
+
+print(f"Halo, nama saya {nama}")
+print(f"Umur saya {umur} tahun")
+print(f"Saya tinggal di {kota}")
+print(f"Hobi saya {hobi}")
+#output:
+Halo, nama saya Arya Mohan
+Umur saya 18 tahun
+Saya tinggal di Asrama Gen Z
+Hobi saya Memandangi gambar harimau di dinding

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--bisa semua ukuran device-->
+    <title>Profil Saya</title>
+    <!--import font family-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href = "style.css"> <!--panggil cssnya-->
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container">
+        <div class="profil-saya">
+            <img src="My Photo Profil.png" alt="My Photo Profil">
+            
+        </div>
+
+        <div class="profil-konten">
+            <header>
+                <h1>Hai,Perkenalkan Saya Khafifatul Isaroh</h1>
+                <p class="tagline">Saya adalah seorang designer graphic terbaik di jaman Majapahit</p>
+            </header>
+            
+            <hr class="divider"> <!--garis pemisah header dengan isi konten lain-->
+            <main>
+                <section class="bio-saya">
+                    <h2>Tentang Saya:</h2>
+                    <P>Saya adalah seorang Desainer Grafis dari jaman majapahit sampai sekarang.Bertahun-tahun pengalaman di agensi kreatif di Indonesia.Spesialis dalam branding, desain kemasan, dan ilustrasi digital. Berhasil memimpin re-branding 5 klien besar yang meningkatkan brand awareness mereka sebesar 30%. Terbiasa bekerja dengan tenggat waktu ketat menggunakan Adobe Creative Suite.</P>
+                    <p>Saat ini saya berminat untuk menjadi web developer karena sejalan dengan jurusan kuliah yang saya ambil sekarang.Dengan langkah awal
+                        mengikuti class dari Raincode,saya positif thingking yang awalnya ga ada basic sama sekali di bidang coding,saya yakin saya bisa!</p>
+                    <p>SAYA AKAN LAWAN!!!!!</p>
+                </section>
+                
+                <section class="hobi-saya">
+                    <h2>Hobi Saya:</h2>
+                    <ul class="daftar-hobi">
+                        <li>Bernyanyi</li>
+                        <li>Badminton</li>
+                        <li>Memasak</li>
+                     </ul>
+                </section>
+                
+                <section class="Tombol-CTA">
+                    <h2>Kontak Saya:</h2>
+                    <P>Punya proyek menarik? Mari kita bicarakan! </P>
+                    <a href = "https://www.instagram.com/khafifatul27/" class="btn">Instagram Saya</a>
+                </section>
+
+                <!-- Tambahan Fitur untuk js -->
+                    <section class="interactive-section">
+                        <h3>Feedback</h3>
+                        <div class="button-group">
+                            <!-- 1. Tombol Salam & Alert -->
+                            <button id="btnSalam" class="btn-js">Salam Interaksi🫰</button>
+                            
+                            <!-- 2. Tombol Ganti Warna Tema/Mode -->
+                            <button id="btnGantiWarna" class="btn-js">Ganti Mode☀️</button>
+                            
+                            <!-- 3. Tombol Counter / Like -->
+                            <button id="btnLike" class="btn-js">Like❤️ <span id="likeCount">0</span></button>
+                        </div>
+                    </section>
+            </main>
+        </div>
+    </div>
+        <footer>
+            <p>
+             © 2026 Khafifatul Isaroh. All rights reserved.
+            </p>
+        </footer>
+    </div>
+<script src="script.js"></script> <!--panggil js nya-->
+</body>
+</html>

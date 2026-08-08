@@ -15,11 +15,14 @@ if ada_diskon:
 else:
     bayar = tiket
 
-print("Bayar:", bayar)   # tebak: ???
+print("Bayar:", bayar)   # tebak: bayar= 50000 * 0.8 = 40000
 
 # Pertanyaan:
 # - Kenapa blok "else" tidak dijalankan?
+😶‍🌫️ disini yang jalan blok if karena diketahui di soal memenuhi syarat if yaitu ada_diskon=True
 # - Coba ubah ada_diskon = False, kira-kira hasilnya apa?
+😶‍🌫️ Setelah di run outputnya:
+#Bayar: 50000 , yang jalan adalah blok else karena syarat if tidak terpenuhi
 
 
 # ============================================================
@@ -31,13 +34,13 @@ print("Bayar:", bayar)   # tebak: ???
 
 umur = 15
 
-if ???:                          # tulis kondisi yang benar di sini
+if umur >=13:                          # tulis kondisi yang benar di sini
     print("Boleh masuk.")
 else:
     print("Maaf, belum boleh masuk.")
 
-# Hint: pakai operator perbandingan yang sudah kamu pelajari
-
+# Hint (petunjuk): pakai operator perbandingan yang sudah kamu pelajari
+#output: Boleh masuk. yang jalan blok if karena syarat di soal sudah terpenuhi yaitu umur=15 >=13
 
 # ============================================================
 # BAGIAN 3 — Tulis sendiri
@@ -48,3 +51,11 @@ else:
 # - Kalau tidak, cetak "Masih oke."
 
 # Tulis kode kamu di sini:
+suhu = 29
+
+if suhu > 30:
+    print("Panas Banget!!")
+else:
+    print("Masih Oke.")
+
+#output: Masih Oke.karena suhu =29 < 30 ,yang jalan blok else

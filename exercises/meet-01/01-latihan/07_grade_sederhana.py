@@ -19,8 +19,17 @@
 nilai = 82
 
 # Tulis kode kamu di sini:
-
-
+if nilai >=90:
+    print(Grade: A)
+    elif nilai >=80:
+        print(Grade: B)
+    elif nilai >=70:
+        print(Grade: C)
+    elif nilai >=60:
+        print(Grade: D)
+    else:
+        print(Grade: E)
+#cek dulu yee kitee
 # Output yang diharapkan (untuk nilai = 82):
 # Grade: B
 

@@ -12,9 +12,9 @@
 
 nilai = 85
 
-if nilai >= 60:
+if nilai >= 60: #Kondisi pengecekan 1 berhenti disini 
     grade = "D"
-elif nilai >= 70:
+elif nilai >= 70: #kondisi pengecekan 2 berhenti disini
     grade = "C"
 elif nilai >= 80:
     grade = "B"
@@ -23,10 +23,26 @@ elif nilai >= 90:
 else:
     grade = "E"
 
-print("Grade:", grade)
+print("Grade:", grade) #output Grade: D
 
 # ---- Petunjuk ----
 # Python mengevaluasi kondisi if/elif dari atas ke bawah.
 # Begitu satu kondisi True, yang lain dilewati.
-# Coba tanya diri sendiri: nilai 85 >= 60 itu True atau False?
-# Terus apa yang terjadi setelah kondisi pertama True?
+# Coba tanya diri sendiri: nilai 85 >= 60 itu True atau False? True
+# Terus apa yang terjadi setelah kondisi pertama True? pengecekan berhenti di blok pertama karena kondisi pertama true.
+
+#Perbaikan kode:
+nilai = 85
+
+if nilai <= 60: #diganti ke nilai <=60
+    grade = "D"
+elif nilai <= 70: #diganti ke nilai <=70
+    grade = "C"
+elif nilai >= 80:
+    grade = "B"
+elif nilai >= 90:
+    grade = "A"
+else:
+    grade = "E"
+
+print("Grade:", grade) #Output: Grade: B

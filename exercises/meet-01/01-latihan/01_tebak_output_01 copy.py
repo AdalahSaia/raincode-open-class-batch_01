@@ -10,14 +10,24 @@
 nama = "Andi"
 umur = 20
 
-print(nama)          # tebak: ???
-print(umur)          # tebak: ???
-print(type(nama))    # tebak: ???
-print(type(umur))    # tebak: ???
+print(nama)          # tebak: Andi
+print(umur)          # tebak: 20
+print(type(nama))    # tebak: <class 'str'>
+print(type(umur))    # tebak: <class 'int'>
 
 # Pertanyaan:
 # - Kenapa print(nama) tidak mencetak huruf n-a-m-a, tapi isinya?
+😶‍🌫️Karena nama di print(nama) merupakan bentuk variabel dengan string Andi,maka output yang akan dicetak adalah isi dari variabel nama yaitu Andi (atau nama lain disini).
 # - Apa perbedaan output print("Andi") vs print(nama)?
+😶‍🌫️Outpit print("Andi") menghasilkan Andi dalam bentuk string biasa,jika diubah nilainya akan tetap menghasilkan Andi
+😶‍🌫️Output print(nama) akan menghasilkan Andi dalam bentuk nilai yang tersimban di variabel nama,jika nilainya diubah maka akan ikut berubah
+
+misalnya gini:
+nama = "susi"
+umur = 20
+
+print("Andi") #output Andi
+print(nama) #output susi
 
 
 # ============================================================
@@ -31,3 +41,16 @@ umur = 0       # ganti dengan umurmu
 
 print("Nama saya:", nama)
 print("Umur saya:", umur, "tahun")
+#output:
+#Nama saya: ???
+#Umur saya: 0 tahun
+
+#===============================================================
+nama = "Khafifatul"   # ganti dengan namamu
+umur = 20       # ganti dengan umurmu
+
+print("Nama saya:", nama)
+print("Umur saya:", umur, "tahun")
+#output:
+#Nama saya: Khafifatul
+#Umur saya: 20 tahun
